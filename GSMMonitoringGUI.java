@@ -15,35 +15,35 @@ public class GSMMonitoringGUI {
 
         // Dropdown for GSM Devices
         JLabel deviceLabel = new JLabel("Select GSM Device:");
-        deviceLabel.setBounds(10, 10, 120, 20);
+        deviceLabel.setBounds(10, 10, 150, 20);
         window.add(deviceLabel);
 
         deviceDropdown = new JComboBox<>(getDevices());
-        deviceDropdown.setBounds(140, 10, 120, 20);
+        deviceDropdown.setBounds(170, 10, 300, 20);
         window.add(deviceDropdown);
 
         // Dropdown for GSM Bands
         JLabel bandLabel = new JLabel("Select GSM Band:");
-        bandLabel.setBounds(10, 40, 120, 20);
+        bandLabel.setBounds(10, 40, 150, 20);
         window.add(bandLabel);
 
         String[] bandList = {"GSM900", "DCS1800", "GSM850", "PCS1900", "GSM450", "GSM480", "GSM-R"};
         bandDropdown = new JComboBox<>(bandList);
-        bandDropdown.setBounds(140, 40, 120, 20);
+        bandDropdown.setBounds(170, 40, 300, 20);
         window.add(bandDropdown);
 
         // Textbox for Frequency
         JLabel freqLabel = new JLabel("Enter Frequency:");
-        freqLabel.setBounds(10, 70, 120, 20);
+        freqLabel.setBounds(10, 70, 150, 20);
         window.add(freqLabel);
 
         freqField = new JTextField();
-        freqField.setBounds(140, 70, 120, 20);
+        freqField.setBounds(170, 70, 300, 20);
         window.add(freqField);
-
+        
         // Buttons
         JButton scanButton = new JButton("Scan");
-        scanButton.setBounds(10, 100, 70, 20);
+        scanButton.setBounds(10, 100, 120, 25);
         scanButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 gsmScan(deviceDropdown.getSelectedItem().toString(), bandDropdown.getSelectedItem().toString());
@@ -52,16 +52,30 @@ public class GSMMonitoringGUI {
         window.add(scanButton);
 
         JButton livemonButton = new JButton("Livemon");
-        livemonButton.setBounds(90, 100, 70, 20);
+        livemonButton.setBounds(140, 100, 120, 25);
         livemonButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                livemon(deviceDropdown.getSelectedItem().toString(), freqField.getText());
+                if(freqField.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(window,
+                    "Please Enter a Frequency in the Frequency Field",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+                }
+                else if(!freqField.getText().endsWith("M")){
+                    JOptionPane.showMessageDialog(window,
+                    "Frequency Must End With 'M'",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+                }
+                else{
+                    livemon(deviceDropdown.getSelectedItem().toString(), freqField.getText());
+                }
             }
         });
         window.add(livemonButton);
 
         JButton imsiCatcherButton = new JButton("IMSI Catcher");
-        imsiCatcherButton.setBounds(170, 100, 120, 20);
+        imsiCatcherButton.setBounds(270, 100, 135, 25);
         imsiCatcherButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 imsiCatcher();
@@ -71,7 +85,7 @@ public class GSMMonitoringGUI {
 
         // Button to refresh device list
         JButton refreshButton = new JButton("Refresh Device List");
-        refreshButton.setBounds(10, 130, 150, 20);
+        refreshButton.setBounds(10, 135, 200, 25);
         refreshButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 deviceDropdown.setModel(new DefaultComboBoxModel<>(getDevices()));
