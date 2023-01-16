@@ -1,7 +1,3 @@
-# SimpleCalc
-Simple Calculator in C
----
-
 ## Build and execute on DragonOS FocalX
 
 1.  sudo apt-get install default-jdk
